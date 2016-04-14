@@ -1,0 +1,21 @@
+{
+  "name": "scroll-without-moving-cursor",
+  "main": "./lib/scroll-without-moving-cursor",
+  "version": "0.1.0",
+  "description": "Move the screen using your keyboard without moving the cursor",
+  "keywords": ["scroll", "move", "page", "up", "down", "screen", "cursor"],
+  "activationCommands": {
+    "atom-workspace" :
+       ["editor:scroll-up-without-moving-cursor",
+        "editor:scroll-down-without-moving-cursor",
+        "editor:page-down-without-moving-cursor",
+        "editor:page-up-without-moving-cursor"]
+  },
+  "repository": "https://github.com/poosham/atom-scroll-without-moving-cursor",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+  }
+}
