@@ -1,3 +1,7 @@
+## 0.3.1 - Changed README.md
+* Updated to include configuration support
+
+
 ## 0.3.0 - Configuration support
 * Per line and per pixel scrolling configuration
 * Per line and per pixel page scroll margin configuration
