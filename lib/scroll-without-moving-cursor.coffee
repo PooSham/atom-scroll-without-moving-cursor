@@ -38,14 +38,69 @@ module.exports = ScrollWithoutMovingCursor =
     else
       @modalPanel.show()
   scrollDownLines: ->
-    @scroll(atom.config.get('editor.fontSize'))
+    @scroll(Math.max(0,@calculateNormalScrollPixels()))
   scrollUpLines: ->
-    @scroll(-atom.config.get('editor.fontSize'))
+    @scroll(Math.min(0,-@calculateNormalScrollPixels()))
   scrollDownPage: ->
-    @scroll(@editorElement.getHeight())
+    @scroll(Math.max(0,@calculatePageScrollPixels()))
   scrollUpPage: ->
-    @scroll(-@editorElement.getHeight())
+    @scroll(Math.min(0,-@calculatePageScrollPixels()))
+
+  calculateNormalScrollPixels: ->
+    scrollType = atom.config.get('scroll-without-moving-cursor.normalScroll.scrollType')
+    scrollStep = atom.config.get('scroll-without-moving-cursor.normalScroll.scrollStep')
+    if scrollType == 'pixel'
+      return scrollStep
+    else if scrollType == 'line'
+      lineHeight = atom.config.get('editor.lineHeight')
+      fontSize = atom.config.get('editor.fontSize')
+      return (lineHeight * fontSize) * scrollStep
+  calculatePageScrollPixels: ->
+    marginType   = atom.config.get('scroll-without-moving-cursor.pageScroll.marginType')
+    scrollMargin = atom.config.get('scroll-without-moving-cursor.pageScroll.scrollMargin')
+    if marginType == 'pixel'
+      return @editorElement.getHeight() - scrollMargin
+    else if marginType == 'line'
+      lineHeight = atom.config.get('editor.lineHeight')
+      fontSize = atom.config.get('editor.fontSize')
+      return @editorElement.getHeight() - (lineHeight * fontSize) * scrollMargin
 
   scroll: (pixels) ->
     newScrollTop = @editorElement.getScrollTop() + pixels
     @editorElement.setScrollTop(newScrollTop)
+
+
+
+  config:
+    normalScroll:
+      type: 'object'
+      description: 'How far should the scroll go at each step?'
+      properties:
+        scrollType:
+          title: 'Scroll step type'
+          description: 'What does a step represent?'
+          type: 'string'
+          default: 'line'
+          enum: ['line', 'pixel']
+        scrollStep:
+          title: 'Scroll step'
+          type: 'number'
+          default: 3
+          minimum: 1
+    pageScroll:
+      type: 'object'
+      description: 'When using page up/down, how much margin should there be?'
+      properties:
+        scrollMargin:
+          title: 'Page scroll margin'
+          description: 'How much less than a whole page should be
+                        scrolled at once when page scroll is used?'
+          type: 'number'
+          default: 5
+          minimum: 0
+        marginType:
+          title: 'Margin type'
+          description: 'What does a margin represent?'
+          type: 'string'
+          default: 'line'
+          enum: ['line', 'pixel']

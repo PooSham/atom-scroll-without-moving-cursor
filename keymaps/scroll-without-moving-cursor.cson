@@ -8,7 +8,6 @@
 # For more detailed documentation see
 # https://atom.io/docs/latest/behind-atom-keymaps-in-depth
 'atom-workspace':
-  'ctrl-alt-o': 'scroll-without-moving-cursor:toggle'
   'alt-down': 'editor:scroll-down-without-moving-cursor',
   'alt-up': 'editor:scroll-up-without-moving-cursor'
   'alt-pageup': 'editor:page-up-without-moving-cursor'
