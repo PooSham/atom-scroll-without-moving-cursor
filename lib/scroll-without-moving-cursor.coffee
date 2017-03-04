@@ -5,12 +5,12 @@ module.exports = ScrollWithoutMovingCursor =
   scrollWithoutMovingCursorView: null
   modalPanel: null
   subscriptions: null
-  editorElement: () -> atom.workspace.getActiveTextEditor()
+  editorElement: () -> atom.views.getView(atom.workspace.getActiveTextEditor())
 
   activate: (state) ->
     @scrollWithoutMovingCursorView = new ScrollWithoutMovingCursorView(state.scrollWithoutMovingCursorViewState)
     @modalPanel = atom.workspace.addModalPanel(item: @scrollWithoutMovingCursorView.getElement(), visible: false)
-    # @editorElement = 3
+
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
 
@@ -25,6 +25,7 @@ module.exports = ScrollWithoutMovingCursor =
     @modalPanel.destroy()
     @subscriptions.dispose()
     @scrollWithoutMovingCursorView.destroy()
+    @editorElement.destroy()
 
   serialize: ->
     scrollWithoutMovingCursorViewState: @scrollWithoutMovingCursorView.serialize()
@@ -58,15 +59,15 @@ module.exports = ScrollWithoutMovingCursor =
     marginType   = atom.config.get('scroll-without-moving-cursor.pageScroll.marginType')
     scrollMargin = atom.config.get('scroll-without-moving-cursor.pageScroll.scrollMargin')
     if marginType == 'pixel'
-      return @editorElement().getHeight() - scrollMargin
+      return @editorElement.getHeight() - scrollMargin
     else if marginType == 'line'
       lineHeight = atom.config.get('editor.lineHeight')
       fontSize = atom.config.get('editor.fontSize')
-      return @editorElement().getHeight() - (lineHeight * fontSize) * scrollMargin
+      return @editorElement.getHeight() - (lineHeight * fontSize) * scrollMargin
 
   scroll: (pixels) ->
-    newScrollTop = @editorElement().getScrollTop() + pixels
-    @editorElement().setScrollTop(newScrollTop)
+    newScrollTop = @editorElement.getScrollTop() + pixels
+    @editorElement.setScrollTop(newScrollTop)
 
 
 
