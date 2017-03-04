@@ -1,7 +1,7 @@
 {
   "name": "scroll-without-moving-cursor",
   "main": "./lib/scroll-without-moving-cursor",
-  "version": "0.3.4",
+  "version": "0.3.1",
   "description": "Move the screen using your keyboard without moving the cursor",
   "keywords": [
     "scroll",
