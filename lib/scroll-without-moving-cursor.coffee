@@ -25,7 +25,7 @@ module.exports = ScrollWithoutMovingCursor =
     @modalPanel.destroy()
     @subscriptions.dispose()
     @scrollWithoutMovingCursorView.destroy()
-    @editorElement.destroy()
+    @editorElement().destroy()
 
   serialize: ->
     scrollWithoutMovingCursorViewState: @scrollWithoutMovingCursorView.serialize()
@@ -59,15 +59,15 @@ module.exports = ScrollWithoutMovingCursor =
     marginType   = atom.config.get('scroll-without-moving-cursor.pageScroll.marginType')
     scrollMargin = atom.config.get('scroll-without-moving-cursor.pageScroll.scrollMargin')
     if marginType == 'pixel'
-      return @editorElement.getHeight() - scrollMargin
+      return @editorElement().getHeight() - scrollMargin
     else if marginType == 'line'
       lineHeight = atom.config.get('editor.lineHeight')
       fontSize = atom.config.get('editor.fontSize')
-      return @editorElement.getHeight() - (lineHeight * fontSize) * scrollMargin
+      return @editorElement().getHeight() - (lineHeight * fontSize) * scrollMargin
 
   scroll: (pixels) ->
-    newScrollTop = @editorElement.getScrollTop() + pixels
-    @editorElement.setScrollTop(newScrollTop)
+    newScrollTop = @editorElement().getScrollTop() + pixels
+    @editorElement().setScrollTop(newScrollTop)
 
 
 
